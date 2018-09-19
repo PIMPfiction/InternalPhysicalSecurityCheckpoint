@@ -1,0 +1,4 @@
+Django App
+     Sql injection -> /logs/?id=
+     Directory Traversal -> path_view/?file=
+     #XSS 

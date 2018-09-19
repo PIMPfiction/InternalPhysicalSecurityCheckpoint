@@ -1,0 +1,5 @@
+{% for log in logs %}
+  <h1><a href="?id={{log.id}}">{{log.Code}}</a></h1>
+  <h3>Category:{{log.Category}}</h3>
+  <h3>Operation:{{log.Operation}}</h3>
+{% endfor %}
