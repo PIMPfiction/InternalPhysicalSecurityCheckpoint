@@ -10,8 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-import os
-
+import os, logging, graypy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +24,7 @@ SECRET_KEY = 'in23z811=&&)(ssg8ry#(bo0swtk1ziu68gs6_x$*+$$*31g%!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +39,8 @@ INSTALLED_APPS = [
     'docs_server',
     'doc_viewer',
     'django_extensions',
+    'django_requestlogging',
+    'request',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -51,6 +52,10 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #'django_requestlogging.middleware.LogSetupMiddleware',
+    'request.middleware.RequestMiddleware',
+    #'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'docs_server.urls'
@@ -122,3 +127,89 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#LOGGING = {
+#    'version':1,
+#    'disable_existing_loggers':False,
+#
+#    'handlers':{
+#        'gelf':{
+#            'class':'graypy.GELFHandler',
+#            'host':'192.168.1.37',
+#            'port':'12245',
+#            },
+#        },
+#    'loggers':{
+#        'docs_server':{
+#            'handlers':['gelf'],
+#            'level':'DEBUG',
+#            },
+#        },
+#    }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters':{
+        'request': {
+            '()': 'django_requestlogging.logging_filters.RequestFilter',
+            },
+        },
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s]- %(message)s',
+        },
+        'request_format': {
+            'format': '%(asctime)s [%(levelname)s]- %(message)s',
+            },
+        },
+    'handlers': {
+        'gelf':{
+            'class':'graypy.GELFHandler',
+            'host':'192.168.1.37',
+            'port':'12245',
+            'formatter': 'request_format',
+            },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            #'formatter': 'standard',
+            'formatter': 'request_format',
+
+        },
+    },
+    'loggers': {
+        #'info': {
+        #    'handlers': ['console', 'gelf'],
+        #    'level': 'DEBUG',
+        #    'propagate': True
+        #},
+        #'django': {
+        #    'handlers': ['console','gelf'],
+        #    'level': 'INFO',
+        #    'filters':['request'],
+        #    'formatter': 'request_format',
+        #},
+        'dddjango.request': {
+            'handlers': ['gelf','console'],
+            'level': 'INFO',
+            'filters':['request'],
+        },
+        #'django.server': {
+        #    'handlers': ['console'],
+        #    'level': 'INFO',
+            #'filters':['request'],
+        #},
+        'ddddjango.db.backends': {
+            'handlers': ['gelf','console'],
+            'level': 'INFO',
+            'filters':['request'],
+        },
+        'vdddiews_logger':{
+            'handlers':['gelf'],
+            'level':'INFO',
+            #'filters':['request'],
+        },
+    },
+}

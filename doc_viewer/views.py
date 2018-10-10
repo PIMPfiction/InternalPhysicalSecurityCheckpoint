@@ -8,9 +8,11 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from doc_viewer.models import *
 # Create your views here.
-import os
+import os, logging
 
 def router(request):
+    #logger = logging.getLogger('views_logger')
+    #logger.debug('First Log')
     return render(request, 'doc_viewer/router.html', {})
 
 def main_page(request):
@@ -26,13 +28,16 @@ def main_page(request):
 def path_view(request):
     get_param = request.GET.get('file','')
     if get_param:
-        if not os.path.isdir(get_param):
-            if get_param.split('.')[-1] == 'pdf':
-                return FileResponse(open(get_param, 'rb'), content_type='application/pdf')
+        try:
+            if not os.path.isdir(get_param):
+                if get_param.split('.')[-1] == 'pdf':
+                    return FileResponse(open(get_param, 'rb'), content_type='application/pdf')
+                else:
+                    rfile = open(get_param, "rb").read()
+                    return HttpResponse(rfile)
             else:
-                rfile = open(get_param, "rb").read()
-                return HttpResponse(rfile)
-        else:
-            path = os.listdir(get_param)
-            context = {"files":path}
-            return render(request, 'doc_viewer/path.html', context)
+                path = os.listdir(get_param)
+                context = {"files":path}
+                return render(request, 'doc_viewer/path.html', context)
+        except:
+            return HttpResponseRedirect('/')
