@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'docs_server',
     'doc_viewer',
     'django_extensions',
-    'django_requestlogging',
-    'request',
+    #'django_requestlogging',
+    #'request',
+    #'django_request_logging',
+    'local_request_logging',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -54,7 +56,8 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     #'django_requestlogging.middleware.LogSetupMiddleware',
-    'request.middleware.RequestMiddleware',
+    'local_request_logging.middleware.LoggingMiddleware',
+    #'request.middleware.RequestMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
@@ -169,7 +172,7 @@ LOGGING = {
             'class':'graypy.GELFHandler',
             'host':'192.168.1.37',
             'port':'12245',
-            'formatter': 'request_format',
+            #'filters': ['request'],
             },
         'console': {
             'level': 'DEBUG',
@@ -183,33 +186,32 @@ LOGGING = {
         #'info': {
         #    'handlers': ['console', 'gelf'],
         #    'level': 'DEBUG',
-        #    'propagate': True
+        #    'propagate': True,
         #},
         #'django': {
-        #    'handlers': ['console','gelf'],
-        #    'level': 'INFO',
-        #    'filters':['request'],
-        #    'formatter': 'request_format',
+        #    'handlers': ['gelf'],
+        #    'level': 'DEBUG',
+        #    'propagate': True,
         #},
-        'dddjango.request': {
-            'handlers': ['gelf','console'],
-            'level': 'INFO',
-            'filters':['request'],
-        },
         #'django.server': {
-        #    'handlers': ['console'],
+        #    'handlers': ['gelf'],
         #    'level': 'INFO',
+        #    'propagate': True,
+        #},
+        'django.request': {
+            'handlers': ['gelf'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        #'django.db.backends': {
+        #    'handlers': ['gelf','console'],
+        #    'level': 'ERROR',
+        #    'propagate': True,
+        #},
+        #'views_logger':{
+        #    'handlers':['gelf'],
+        #    'level':'INFO',
             #'filters':['request'],
         #},
-        'ddddjango.db.backends': {
-            'handlers': ['gelf','console'],
-            'level': 'INFO',
-            'filters':['request'],
-        },
-        'vdddiews_logger':{
-            'handlers':['gelf'],
-            'level':'INFO',
-            #'filters':['request'],
-        },
     },
 }

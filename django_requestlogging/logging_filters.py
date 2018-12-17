@@ -25,7 +25,7 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
+import pdb
 """
 ``logging_filters``
 -------------------
@@ -102,4 +102,6 @@ class RequestFilter(object):
         record.server_protocol = META.get('SERVER_PROTOCOL', '-')
         record.http_user_agent = META.get('HTTP_USER_AGENT', '-')
         #record.remote_addr = META.get('HTTP_USER_AGENT', '-')
+        #pdb.set_trace()
+
         return True
