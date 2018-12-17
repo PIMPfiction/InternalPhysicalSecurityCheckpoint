@@ -24,3 +24,15 @@ class Documents(models.Model):
     Index = models.TextField(max_length=700, null=True)
     def __str__(self):
         return self.Code
+
+class Officers(models.Model):
+    ranks = (
+        ('High', 'High Privileged'),
+        ('Normal', 'Non-Privileged')
+    )
+    officer = models.OneToOneField(User)
+    officer_rank = models.CharField(max_length=10, choices=ranks)
+    active_operation = models.ForeignKey(Operations, blank=True, null=True)
+
+    def __str__(self):
+        return self.officer.username
