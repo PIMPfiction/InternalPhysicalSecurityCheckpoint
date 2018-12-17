@@ -26,8 +26,8 @@
                   <table id="footable_1" class="table" data-sorting="true">
                     <thead>
                       <tr>
-                      <th data-breakpoints="xs" data-name="empty">#</th>
-                      <th class='txt-dark text-center' data-name="kursiyer" data-type="string">Log</th>
+                      <th  data-name="empty">#</th>
+                      <th class='txt-dark text-center' data-name="kursiyer" data-type="html">Log</th>
                       <th class='txt-dark text-center' data-name="points"  data-type="string">Secrecy Level</th>
                       <th class='txt-dark text-center' data-name="warning"  data-type="html">Operation</th>
                       <th class='txt-dark text-center' data-name="warning" data-breakpoints="xs sm md" data-type="string">INDEX</th>
@@ -37,7 +37,7 @@
                       {% for b in operations %}
                       <tr>
                         <td class='txt-dark'> {{forloop.counter}}</td>
-                        <td class='txt-dark text-center'> {{b.Code }}</td>
+                        <td class='txt-dark text-center'><span><a class='txt-danger' href='?id={{b.id}}'>{{b.Code }}</a></span></td>
                         <td class='txt-dark text-center'> {{b.Category}} </td>
                         <td class='text-center'><span class="label label-danger">{{b.Operation}}</span></td>
                         <td class='txt-dark text-center'> {{b.Index}} </td>

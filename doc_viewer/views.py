@@ -8,35 +8,17 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from doc_viewer.models import *
 # Create your views here.
-import os, logging
+import os
 
 
 @login_required
 def main_page(request):
     get_param = request.GET.get('id','') #if get request includes id parameter return Single Document object
     if get_param:
-        #doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
-        doc = Documents.objects.filter(id=get_param)
+        doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
+        #doc = Documents.objects.filter(id=get_param)
         context = {"logs":doc}
         return render(request, 'doc_viewer/log.html', context)
     # if get request does not includes id parameter return list of Document objects.
-    context = {"operations":Documents.objects.all()}
+    context = {"operations":Documents.objects.raw('SELECT * FROM doc_viewer_documents')}
     return render(request, 'doc_viewer/css_table.html', context)
-
-@login_required
-def path_view(request):
-    get_param = request.GET.get('file','')
-    if get_param:
-        try:
-            if not os.path.isdir(get_param):
-                if get_param.split('.')[-1] == 'pdf':
-                    return FileResponse(open(get_param, 'rb'), content_type='application/pdf')
-                else:
-                    rfile = open(get_param, "rb").read()
-                    return HttpResponse(rfile)
-            else:
-                path = os.listdir(get_param)
-                context = {"files":path}
-                return render(request, 'doc_viewer/path.html', context)
-        except:
-            return HttpResponseRedirect('/')
