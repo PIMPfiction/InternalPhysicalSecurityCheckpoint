@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from login import views as auth_views
+
 
 urlpatterns = [
+    url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}),
     url(r'^admin/', admin.site.urls),
     url(r'', include('doc_viewer.urls', namespace='document_viewer')),
+    url(r'^logout/$', auth_views.logout),
+
+    
 ]

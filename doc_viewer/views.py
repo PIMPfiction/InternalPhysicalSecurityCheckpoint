@@ -10,21 +10,20 @@ from doc_viewer.models import *
 # Create your views here.
 import os, logging
 
-def router(request):
-    #logger = logging.getLogger('views_logger')
-    #logger.debug('First Log')
-    return render(request, 'doc_viewer/router.html', {})
 
+@login_required
 def main_page(request):
     get_param = request.GET.get('id','') #if get request includes id parameter return Single Document object
     if get_param:
-        doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
+        #doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
+        doc = Documents.objects.filter(id=get_param)
         context = {"logs":doc}
         return render(request, 'doc_viewer/log.html', context)
     # if get request does not includes id parameter return list of Document objects.
-    context = {"logs":Documents.objects.all()}
-    return render(request, 'doc_viewer/table.html', context)
+    context = {"operations":Documents.objects.all()}
+    return render(request, 'doc_viewer/css_table.html', context)
 
+@login_required
 def path_view(request):
     get_param = request.GET.get('file','')
     if get_param:

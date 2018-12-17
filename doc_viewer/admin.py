@@ -4,3 +4,4 @@ from doc_viewer.models import *
 
 admin.site.register(Operations)
 admin.site.register(Documents)
+admin.site.register(Officers)

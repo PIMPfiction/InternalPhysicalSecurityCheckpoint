@@ -13,12 +13,12 @@ class Operations(models.Model):
 
 class Documents(models.Model):
     category = (
-        ('class', 'Classified'),
-        ('public','Public'),
-        ('dec', 'Declassified'),
-        ('secret', 'Calendestine'),
+        ('Classified', 'Classified'),
+        ('Public','Public'),
+        ('Declassified', 'Declassified'),
+        ('Calendestine', 'Calendestine'),
     )
-    Category = models.CharField(max_length=10, choices=category)
+    Category = models.CharField(max_length=15, choices=category)
     Code = models.CharField(max_length=20, null=True)
     Operation = models.ForeignKey(Operations, blank=True, null=True)
     Index = models.TextField(max_length=700, null=True)

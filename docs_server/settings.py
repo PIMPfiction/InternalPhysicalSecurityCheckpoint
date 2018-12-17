@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-import os, logging, graypy
+import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'in23z811=&&)(ssg8ry#(bo0swtk1ziu68gs6_x$*+$$*31g%!'
-
+GOOGLE_RECAPTCHA_SECRET_KEY = "6LcOboIUAAAAAJRxrgJl1aHAk3xq0dKfyLdStefr"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'docs_server',
     'doc_viewer',
     'django_extensions',
-    #'django_requestlogging',
-    #'request',
-    #'django_request_logging',
-    'local_request_logging',
+    'login',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -55,9 +52,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    #'django_requestlogging.middleware.LogSetupMiddleware',
-    'local_request_logging.middleware.LoggingMiddleware',
-    #'request.middleware.RequestMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
@@ -130,88 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-#LOGGING = {
-#    'version':1,
-#    'disable_existing_loggers':False,
-#
-#    'handlers':{
-#        'gelf':{
-#            'class':'graypy.GELFHandler',
-#            'host':'192.168.1.37',
-#            'port':'12245',
-#            },
-#        },
-#    'loggers':{
-#        'docs_server':{
-#            'handlers':['gelf'],
-#            'level':'DEBUG',
-#            },
-#        },
-#    }
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'filters':{
-        'request': {
-            '()': 'django_requestlogging.logging_filters.RequestFilter',
-            },
-        },
-    'formatters': {
-        'standard': {
-            'format': '%(asctime)s [%(levelname)s]- %(message)s',
-        },
-        'request_format': {
-            'format': '%(asctime)s [%(levelname)s]- %(message)s',
-            },
-        },
-    'handlers': {
-        'gelf':{
-            'class':'graypy.GELFHandler',
-            'host':'192.168.1.37',
-            'port':'12245',
-            #'filters': ['request'],
-            },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            #'formatter': 'standard',
-            'formatter': 'request_format',
-
-        },
-    },
-    'loggers': {
-        #'info': {
-        #    'handlers': ['console', 'gelf'],
-        #    'level': 'DEBUG',
-        #    'propagate': True,
-        #},
-        #'django': {
-        #    'handlers': ['gelf'],
-        #    'level': 'DEBUG',
-        #    'propagate': True,
-        #},
-        #'django.server': {
-        #    'handlers': ['gelf'],
-        #    'level': 'INFO',
-        #    'propagate': True,
-        #},
-        'django.request': {
-            'handlers': ['gelf'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        #'django.db.backends': {
-        #    'handlers': ['gelf','console'],
-        #    'level': 'ERROR',
-        #    'propagate': True,
-        #},
-        #'views_logger':{
-        #    'handlers':['gelf'],
-        #    'level':'INFO',
-            #'filters':['request'],
-        #},
-    },
-}
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'docs_server', 'static'),
+    #('ckeditor', os.path.join(BASE_DIR, 'ckeditor', 'static')),
+    #('ckeditor_uploader', os.path.join(BASE_DIR, 'ckeditor_uploader', 'static')),
+)
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
