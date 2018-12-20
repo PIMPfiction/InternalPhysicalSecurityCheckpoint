@@ -15,8 +15,8 @@ import os
 def main_page(request):
     get_param = request.GET.get('id','') #if get request includes id parameter return Single Document object
     if get_param:
-        doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
-        #doc = Documents.objects.filter(id=get_param)
+       # doc = Documents.objects.raw('SELECT * FROM doc_viewer_documents WHERE id = %s' % get_param)
+        doc = Documents.objects.filter(id=get_param)
         context = {"logs":doc}
         return render(request, 'doc_viewer/log.html', context)
     # if get request does not includes id parameter return list of Document objects.

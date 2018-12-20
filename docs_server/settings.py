@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'in23z811=&&)(ssg8ry#(bo0swtk1ziu68gs6_x$*+$$*31g%!'
 GOOGLE_RECAPTCHA_SECRET_KEY = "6LcOboIUAAAAAJRxrgJl1aHAk3xq0dKfyLdStefr"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
