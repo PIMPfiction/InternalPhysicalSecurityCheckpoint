@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'in23z811=&&)(ssg8ry#(bo0swtk1ziu68gs6_x$*+$$*31g%!'
 GOOGLE_RECAPTCHA_SECRET_KEY = "6LcOboIUAAAAAJRxrgJl1aHAk3xq0dKfyLdStefr"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -60,7 +60,8 @@ ROOT_URLCONF = 'docs_server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'docs_server', 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'docs_server', 'templates'),
+            os.path.join(BASE_DIR, 'doc_viewer/templates/doc_viewer', 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,5 +130,6 @@ STATICFILES_DIRS = (
     #('ckeditor', os.path.join(BASE_DIR, 'ckeditor', 'static')),
     #('ckeditor_uploader', os.path.join(BASE_DIR, 'ckeditor_uploader', 'static')),
 )
-LOGIN_URL = '/login/'
+LOGIN_URL = '/finger_login/'
 LOGIN_REDIRECT_URL = '/'
+RASP_URL = "172.20.10.7"
